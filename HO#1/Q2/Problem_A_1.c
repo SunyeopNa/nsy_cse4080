@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <phtread>
+
 void *thread(void *vargp)
 {
 	pthread_exit((void*)42);
