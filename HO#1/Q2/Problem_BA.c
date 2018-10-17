@@ -4,7 +4,7 @@
 void *foo(void *vargp)
 {
 	int myid; myid = *((int *)vargp);
-	Free(vargp);
+	free(vargp);
 	printf("Thread %d\n", myid);
 }
 
@@ -18,6 +18,6 @@ int main()
 		*ptr = i;
 		Pthread_create(&tid[i], 0, foo, ptr);
 	}
-	Pthread_join(tid[0], 0);
-	Pthread_join(tid[1], 0);
+	pthread_join(tid[0], 0);
+	pthread_join(tid[1], 0);
 }
