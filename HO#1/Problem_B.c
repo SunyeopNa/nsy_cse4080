@@ -3,7 +3,24 @@
 #include <signal.h> 
 #include <unistd.h> 
 // This function will handle a signal.  
-void HandleSignal(int sig, siginfo_t *si, void *context); 
+void HandleSignal(int sig, siginfo_t *si, void *context)
+{
+	switch (sig)
+	{
+	case SIGINT:
+		printf("\nControl-C was pressed: mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
+		_exit(0);
+		break;
+	case SIGCHLD:
+		printf("\nSIGCHLD. mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
+		if (si->si_code == CLD_EXITED || si->si_code == CLD_KILLED)
+		{
+			printf("   Process %d is done!\n", si->si_pid);
+		}
+		break;
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	struct sigaction sVal;
@@ -53,20 +70,3 @@ int main(int argc, char *argv[])
 	return(0);
 }
 
-void HandleSignal(int sig, siginfo_t *si, void *context)
-{
-	switch (sig)
-	{
-	case SIGINT:
-		printf("\nControl-C was pressed: mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
-		_exit(0);
-		break;
-	case SIGCHLD:
-		printf("\nSIGCHLD. mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
-		if (si->si_code == CLD_EXITED || si->si_code == CLD_KILLED)
-		{
-			printf("   Process %d is done!\n", si->si_pid);
-		}
-		break;
-	}
-}
