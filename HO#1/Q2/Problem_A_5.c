@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <pthread.h>
 
+// Shared Memeory
 int i = 42;
+
 void *thread(void *vargp)
 {
 	printf("%d\n", i);
 }
-
 
 void *thread2(void *vargp)
 {
