@@ -16,7 +16,7 @@ int main()
 	{
 		ptr = Malloc(sizeof(int));
 		*ptr = i;
-		Pthread_create(&tid[i], 0, foo, ptr);
+		pthread_create(&tid[i], 0, foo, ptr);
 	}
 	pthread_join(tid[0], 0);
 	pthread_join(tid[1], 0);
