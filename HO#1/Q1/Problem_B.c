@@ -2,7 +2,8 @@
 #include <stdlib.h> 
 #include <signal.h> 
 #include <unistd.h> 
-// This function will handle a signal.  void HandleSignal(int sig, siginfo_t *si, void *context); 
+// This function will handle a signal.  
+void HandleSignal(int sig, siginfo_t *si, void *context); 
 int main(int argc, char *argv[])
 {
 	struct sigaction sVal;
