@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 		printf("\nChild: My process id = %d.\n", myPID);
 		printf("Child: My process group id = %d.\n", myG_PID);
 
-		// Parent이 SIGCHLD signal을 확인하는 방법
+		// Parent이 SIGCHLD signal 신호를 얻는 방법
 		// return (0);
 
 		// 직접 SIGINT 신호 전송
