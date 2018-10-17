@@ -3,7 +3,7 @@
 
 void *foo(void *vargp)
 {
-	vargp = 1000;
+	((int)vargp)++;
 	int id;
 	id = (int)vargp;
 	printf("Thread %d\n", id);
