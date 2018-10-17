@@ -15,6 +15,7 @@ void *thread(void *vargp)
 	{
 		www++;
 	}
+	sleep(2);
 	pthread_exit((void*)42);
 }
 
