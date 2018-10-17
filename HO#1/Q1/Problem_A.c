@@ -1,4 +1,3 @@
-/*  Signal Example with wait() and waitpid() SIGUSR1, SIGUSR2, and SIGINT */ 
 #include <signal.h> 
 #include <stdio.h>
 #include <sys/wait.h>
@@ -9,6 +8,11 @@ int i, pid1, pid2, status;
 int main(int argc, char *argv[], char *env[])
 {
 	int exit_status;
+
+	// SIG_ERR : Error가 발생하였음을 나타냄
+	// SIGUSR1, SIGUSR2 : 프로세스간에 Communicate를 위한 서로 다른 Signal
+
+	// 아래 사용된 signal()에 의해 signal_handler는 SIGUSR1과 SIGUSR2와 연결
 	if (signal(SIGUSR1, signal_handler) == SIG_ERR)
 	{
 		printf("P?ent: Unable to create handler for SIGUSR1\n");
@@ -17,40 +21,26 @@ int main(int argc, char *argv[], char *env[])
 	{ 
 		printf("P?ent: Unable to create handler for SIGUSR2\n"); 
 	}
+
 	printf("Parent pid = %d\n", pid1 = getpid());
+
+	// 현재 프로세스에 대해 fork()를 진행
 	if ((pid2 = fork()) == 0) 
 	{
+		// Child 분기
+		// pid1(Parent)에게 SIGUSR1 signal을 보냄
+		// 이때 SIGUSR1는 signal_handler(int)와 연결됨
 		printf("Child pid = %d\n", getpid());         
 		printf("Child: sending parent SIGUSR1\n", getpid());
 		kill(pid1, SIGUSR1);             
-		for (;; ); /* loop forever */
+		for (;;);
 	}
 	else {         
-		/*           
-		* This waits for ANY child to die.  It doesn't matter if the child          
-		* dies normally or from a signal.  The satus information is then          
-		* stored in the status integer.          
-		*          
-		* If you want to wait on a particular process use waitpid():          
-		*      waitpid( childPID, &status, 0 );          
-		* is the common usage.          
-		*          
-		* Solaris acts weirdly when a signal is given to the parent process.          
-		* Therefore we place the wait() inside a while loop so that wait()          
-		* will not return before the child has died.          
-		*/
 
-
-		/*   while( (wait( &status ) == -1) && (errno == EINTR) ) {} */
+		// Parent가 Child 가 종료되는 것을 기다린다.
 		wait(&status);
-		/*          
-		* The information in status is *NOT* the return code!!  To make use          
-		* of the information we must macros to extract the needed          
-		* information.          
-		*/
-		/* WIFEXITED() determines if the process exited normally (returned a          
-		* number).  This can be done through a return or exit()          
-		*/
+
+		// process 종료상태 분기. process 종료가 정상종료인지 그렇지 않은 경우인지의 분기.
 		if (WIFEXITED(status)) {             
 			/*               
 			* Now we know the process exited properly so we can get the              
@@ -99,32 +89,39 @@ static void signal_handler(int signo)
 	/* signo contains the signal number that was received */
 	switch (signo)
 	{
-		/* Signal is a SIGUSR1 */
+	/* Signal is a SIGUSR1 */
 	case SIGUSR1:
 		printf("Process %d: received SIGUSR1 \n", getpid());
-		if (pid1 == getpid())
-			/* it is the parent */
+		/* it is the parent */
+		if (pid1 == getpid())	
 		{
 			printf("Process %d is passing SIGUSR1 to %d...\n", getpid(), pid2);
 			kill(pid2, SIGUSR1);
 		}
-		else /* it is the child */
+		/* it is the child */
+		else 
 		{
 			printf("Process %d is passing SIGUSR2 to itself...\n", getpid());
 			kill(getpid(), SIGUSR2);
 		}
 		break;
-		/*  It's a SIGUSR2 */
+	/*  It's a SIGUSR2 */
 	case SIGUSR2:
 		printf("Process %d: received SIGUSR2 \n", getpid());
-		if (pid1 == getpid()) {
+		/* it is the parent */
+		if (pid1 == getpid()) 
+		{
 			printf("Process %d is passing SIGUSR2 to %d...\n", getpid(), pid2);
 			kill(pid2, SIGUSR2);
 		}
-		else /* it is the child */
+		/* it is the child */
+		else 
 		{
-			printf("Process %d will terminate itself using SIGINT\n", getpid());
-			kill(getpid(), SIGINT);
+			//printf("Process %d will terminate itself using SIGINT\n", getpid());
+			//kill(getpid(), SIGINT);
+
+			printf("child Properly Return and closed.");
+			return;
 		}
 		break;
 	default:                 
