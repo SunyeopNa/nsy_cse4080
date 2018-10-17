@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	sVal.sa_flags = SA_SIGINFO;
 
 	// Indicate which function is the signal handler.
-	sVal.sa_sigaction = &HandleSignal;
+	sVal.sa_sigaction = HandleSignal;
 
 	myPID = getpid();
 	myG_PID = getpgid(myPID);
