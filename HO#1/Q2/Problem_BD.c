@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 
+
 sem_t s;
 /* semaphore s */
 void *foo(void *vargp)
