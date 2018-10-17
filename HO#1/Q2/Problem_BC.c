@@ -3,7 +3,7 @@
 
 void *foo(void *vargp)
 {
-	*((int)vargp)++;
+	printf("address : %x\n", vargp);
 	int id;
 	id = (int)vargp;
 	printf("Thread %d\n", id);
