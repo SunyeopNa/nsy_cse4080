@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		// return (0);
 
 		// 직접 SIGINT 신호 전송
-		kill(getpid(), SIGINT);
+		kill(getppid(), SIGINT);
 	}
 	else
 	{
