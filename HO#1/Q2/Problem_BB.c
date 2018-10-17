@@ -17,7 +17,7 @@ int main()
 	{
 		// 두개의 스레드는 서로 같은 i(주소)를 매개변수로 가진다
 		pthread_create(&tid[i], NULL, foo, &i);
-		sleep(1);
+
 	}
 	pthread_join(tid[0], NULL);
 	pthread_join(tid[1], NULL);
