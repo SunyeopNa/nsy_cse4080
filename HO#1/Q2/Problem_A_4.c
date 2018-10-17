@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <pthread.h>
 
 void *thread(void *vargp)
@@ -8,7 +10,7 @@ void *thread(void *vargp)
 	printf("MAKE DELAY 2\n");
 	printf("MAKE DELAY 3\n");
 	printf("MAKE DELAY 4\n");
-	int www =0
+	int www = 0;
 	for (int i = 0; i < 10000; i++)
 	{
 		www++;
