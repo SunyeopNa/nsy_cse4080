@@ -2,19 +2,21 @@
 #include <stdlib.h> 
 #include <signal.h> 
 #include <unistd.h> 
-// This function will handle a signal.  
+
 void HandleSignal(int sig, siginfo_t *si, void *context); 
 int main(int argc, char *argv[])
 {
 	struct sigaction sVal;
 	pid_t myPID;
 	pid_t myG_PID;
-	// Specify that we will use a signal handler that takes three arguments 
-	// instead of one, which is the default.    
+	// 기본값인 sa_handler의 경우 signum 하나의 인자를 사용할 수 있다. 이를 SA_SIGINFO로 바꾸면
+	// siginfo_t 구조체를 활용할 수도 있다.
 	sVal.sa_flags = SA_SIGINFO;
-	// Indicate which function is the signal handler.    
-	sVal.sa_sigaction = HandleSignal;
+	sVal.sa_sigaction = HandleS
+	// PID를 가져온다
 	myPID = getpid();
+	// PGID = Process Group ID
+	// getpgid() : 인자로 받은 PID의 PGID를 얻는다.
 	myG_PID = getpgid(myPID);
 	printf("\nMy process id = %d.\n", myPID);
 	printf("My process group id = %d.\n", myG_PID);
@@ -24,12 +26,15 @@ int main(int argc, char *argv[])
 		myG_PID = getpgid(myPID);
 		printf("\nChild: My process id = %d.\n", myPID);
 		printf("Child: My process group id = %d.\n", myG_PID);
-		// Create a new process group that contains this process       
+		
+		// setpgid() : 이 process를 포함하는 Process Group을 생성    
 		setpgid(0, 0);
 		myPID = getpid();
 		myG_PID = getpgid(myPID);
 		printf("\nChild: My process id = %d.\n", myPID);
 		printf("Child: My process group id = %d.\n", myG_PID);
+
+		return (0);
 	}
 	else
 	{

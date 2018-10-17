@@ -42,44 +42,17 @@ int main(int argc, char *argv[], char *env[])
 
 		// process 종료상태 분기. process 종료가 정상종료인지 그렇지 않은 경우인지의 분기.
 		if (WIFEXITED(status)) {             
-			/*               
-			* Now we know the process exited properly so we can get the              
-			* return value              
-			*              
-			* Note that WEXITSTATUS only retuns the lower 8 bits!  That means              
-			* that if we ever expect a negative number then we have to count              
-			* the 8th bit as a sign bit.              
-			*/
-			exit_status = WEXITSTATUS(status);
-			/*               
-			* Since we expect negative numbers...              
-			*              
-			* If the exit_status is greater than 2^7 (128), th? the eigth bit              
-			* is a 1, so we subtract 2^8 (256) from it to make it look like               
-			* a negative number.              
-			*/             
+			exit_status = WEXITSTATUS(status);      
 			if (exit_status > 128) { exit_status -= 256; }
 			printf("Child return - %d\n", WEXITSTATUS(status));
 		}
 		else {  
 			/* Well it didn't exit properly.  Was it a signal? */             
 			if (WIFSIGNALED(status)) 
-			{                 
-				/*                   
-				* Yes. A signal killed the child process.  Now we can extract                  
-				* the signal information from status                  
-				*/                                  
+			{                                                 
 				printf("Child died on signal - %d\n", WTERMSIG(status));
 			} 
 		}
-
-		/*           
-		* There are two other macros most UNIXes use.  They are:          
-		*  WIFSTOPPED() and WSTOPSIG().  See the man pages on the dells for          
-		*  more information.          
-		*          
-		*  To wait on a particular pid - see waitpid()          
-		*/
 	}
 	return 0;
 }
@@ -117,11 +90,11 @@ static void signal_handler(int signo)
 		/* it is the child */
 		else 
 		{
-			//printf("Process %d will terminate itself using SIGINT\n", getpid());
-			//kill(getpid(), SIGINT);
+			printf("Process %d will terminate itself using SIGINT\n", getpid());
+			kill(getpid(), SIGINT);
 
-			printf("child will return properly using \"exit(0)\"\n");
-			exit(0);
+			//printf("child will return properly using \"exit(0)\"\n");
+			//exit(0);
 			return;
 		}
 		break;
