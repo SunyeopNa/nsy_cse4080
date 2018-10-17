@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
+#include <stdlib.h>
 #include <semaphore.h>
 
 sem_t s;
@@ -22,6 +23,7 @@ int main()
 	for (i = 0; i < 2; i++)
 	{
 		pthread_create(&tid[i], 0, foo, &i);
+		sleep(1);
 	}
 	pthread_join(tid[0], 0);
 	pthread_join(tid[1], 0);
