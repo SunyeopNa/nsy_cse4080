@@ -9,7 +9,8 @@ void *foo(void *vargp)
 {
 	int id;
 	id = *((int *)vargp);
-	V(&s);
+	sem_wait(&s);
+	
 	printf("Thread %d\n", id);
 }
 
@@ -22,7 +23,7 @@ int main()
 	for (i = 0; i < 2; i++)
 	{
 		pthread_create(&tid[i], 0, foo, &i);
-		P(&s);
+		sem_post(&s);
 	}
 	pthread_join(tid[0], 0);
 	pthread_join(tid[1], 0);
