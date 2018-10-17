@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	// 기본값인 sa_handler의 경우 signum 하나의 인자를 사용할 수 있다. 이를 SA_SIGINFO로 바꾸면
 	// siginfo_t 구조체를 활용할 수도 있다.
 	sVal.sa_flags = SA_SIGINFO;
-	sVal.sa_sigaction = HandleS
+	sVal.sa_sigaction = HandleSignal;
 	// PID를 가져온다
 	myPID = getpid();
 	// PGID = Process Group ID
