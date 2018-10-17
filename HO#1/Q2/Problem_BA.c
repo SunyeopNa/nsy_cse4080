@@ -14,7 +14,7 @@ int main()
 	int i, *ptr;
 	for (i = 0; i < 2; i++)
 	{
-		ptr = Malloc(sizeof(int));
+		ptr = malloc(sizeof(int));
 		*ptr = i;
 		pthread_create(&tid[i], 0, foo, ptr);
 	}
