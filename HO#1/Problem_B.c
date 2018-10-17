@@ -3,37 +3,17 @@
 #include <signal.h> 
 #include <unistd.h> 
 // This function will handle a signal.  
-void HandleSignal(int sig, siginfo_t *si, void *context)
-{
-	switch (sig)
-	{
-	case SIGINT:
-		printf("\nControl-C was pressed: mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
-		_exit(0);
-		break;
-	case SIGCHLD:
-		printf("\nSIGCHLD. mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));
-		if (si->si_code == CLD_EXITED || si->si_code == CLD_KILLED)
-		{
-			printf("   Process %d is done!\n", si->si_pid);
-		}
-		break;
-	}
-}
-
+void HandleSignal(int sig, siginfo_t *si, void *context); 
 int main(int argc, char *argv[])
 {
 	struct sigaction sVal;
 	pid_t myPID;
 	pid_t myG_PID;
-
 	// Specify that we will use a signal handler that takes three arguments 
 	// instead of one, which is the default.    
 	sVal.sa_flags = SA_SIGINFO;
-
 	// Indicate which function is the signal handler.    
 	sVal.sa_sigaction = HandleSignal;
-    
 	myPID = getpid();
 	myG_PID = getpgid(myPID);
 	printf("\nMy process id = %d.\n", myPID);
@@ -70,3 +50,20 @@ int main(int argc, char *argv[])
 	return(0);
 }
 
+void HandleSignal(int sig, siginfo_t *si, void *context)
+{
+	switch (sig)
+	{
+	case SIGINT:
+	printf("\nControl-C was pressed: mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));   
+	_exit(0);          
+	break;       
+	case SIGCHLD:          
+		printf("\nSIGCHLD. mypid = %d, mypgid = %d\n", getpid(), getpgid(getpid()));          
+		if (si->si_code == CLD_EXITED || si->si_code == CLD_KILLED) 
+		{
+			printf("   Process %d is done!\n", si->si_pid); 
+		}          
+		break;
+	}
+}
