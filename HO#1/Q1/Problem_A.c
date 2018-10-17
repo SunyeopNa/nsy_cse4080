@@ -120,7 +120,8 @@ static void signal_handler(int signo)
 			//printf("Process %d will terminate itself using SIGINT\n", getpid());
 			//kill(getpid(), SIGINT);
 
-			printf("child Properly Return and closed.");
+			printf("child Properly will  Return and closed.");
+			exit(0);
 			return;
 		}
 		break;
