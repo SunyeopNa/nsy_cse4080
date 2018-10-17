@@ -8,6 +8,7 @@ void HandleSignal(int sig, siginfo_t *si, void *context);
 
 int main(int argc, char *argv[])
 {
+	
 	struct sigaction sVal;
 	pid_t myPID;
 	pid_t myG_PID;
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
 	sVal.sa_flags = SA_SIGINFO;
 
 	// Indicate which function is the signal handler.
-	sVal.sa_sigaction = HandleSignal;
+	sVal.sa_sigaction = &HandleSignal;
 
 	myPID = getpid();
 	myG_PID = getpgid(myPID);
