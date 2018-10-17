@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <phtread>
+#include <pthread>
 
 void *thread(void *vargp)
 {
