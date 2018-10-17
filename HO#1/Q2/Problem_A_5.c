@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <pthread.h>
+
 int i = 42;
 void *thread(void *vargp)
 {
