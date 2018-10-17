@@ -34,10 +34,18 @@ int main(int argc, char *argv[])
 		printf("\nChild: My process id = %d.\n", myPID);
 		printf("Child: My process group id = %d.\n", myG_PID);
 
-		return (0);
+		// Parent이 SIGCHLD signal을 확인하는 방법
+		// return (0);
+
+		// 직접 SIGINT 신호 전송
+		kill(gitpid(), SIGINT);
 	}
 	else
 	{
+		// sigaction()을 이용해 sigaction 구조체를 signal과 연결
+		// main에서 HandleSignal과 sa_sigaction이 연결되었기 때문에
+		// signal()를 통해 연결하는 것과 비슷한 동작
+
 		// Register for SIGINT       
 		sigaction(SIGINT, &sVal, NULL);
 

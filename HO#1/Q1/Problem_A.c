@@ -59,7 +59,9 @@ int main(int argc, char *argv[], char *env[])
 
 static void signal_handler(int signo)
 {
-	/* signo contains the signal number that was received */
+	// signal_handler는 main()에서  signal()에 의해 SIGUSR1, SIGUSR2와 연결된다.
+	// switch문을 통해 SIGUSR1과 SIGUSR2중 어떤 signal에 의해
+	// 핸들러가 호출된 것인지 분기를 나누고 있다.
 	switch (signo)
 	{
 	/* Signal is a SIGUSR1 */
@@ -92,6 +94,9 @@ static void signal_handler(int signo)
 		{
 			printf("Process %d will terminate itself using SIGINT\n", getpid());
 			kill(getpid(), SIGINT);
+
+			// 위의 코드 대신 아래의 코드를 이용해 child의 정상 종료를 유도하면
+			// parent가 다른 분기문으로 이동하도록 할 수 있다.
 
 			//printf("child will return properly using \"exit(0)\"\n");
 			//exit(0);
