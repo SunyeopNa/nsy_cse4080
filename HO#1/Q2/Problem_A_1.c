@@ -3,6 +3,7 @@
 
 void *thread(void *vargp)
 {
+	// pthread_exit의 매개변수는 pthread_join을 통해 받는다.
 	pthread_exit((void*)42);
 }
 

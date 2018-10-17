@@ -28,6 +28,9 @@ int main()
 	pthread_create(&tid, NULL, thread, (void*)&i);
 	// thread2() 스레드를 생성하면서 i변수 주소가 전달된다.
 	pthread_create(&tid2, NULL, thread2, (void*)&i);
+
+	// join은 반드시 순서대로 일어나지만, thread2() 내부의 *ptr = 0이 언제
+	// 실행되는지에 대해 예측할 수 없다.
 	pthread_join(tid, (void**)&i);
 	pthread_join(tid2, NULL);
 	printf("%d\n", i);
