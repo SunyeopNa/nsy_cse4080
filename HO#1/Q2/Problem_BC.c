@@ -13,7 +13,7 @@ int main()
 	pthread_t tid[2];
 	int i;
 	for (i = 0; i < 2; i++)
-		Pthread_create(&tid[i], 0, foo, i);
-	Pthread_join(tid[0], 0);
-	Pthread_join(tid[1], 0);
+		pthread_create(&tid[i], 0, foo, i);
+	pthread_join(tid[0], 0);
+	pthread_join(tid[1], 0);
 }

@@ -20,9 +20,9 @@ int main()
 	/* S=0 INITIALLY */
 	for (i = 0; i < 2; i++)
 	{
-		Pthread_create(&tid[i], 0, foo, &i);
+		pthread_create(&tid[i], 0, foo, &i);
 		P(&s);
 	}
-	Pthread_join(tid[0], 0);
-	Pthread_join(tid[1], 0);
+	pthread_join(tid[0], 0);
+	pthread_join(tid[1], 0);
 }
