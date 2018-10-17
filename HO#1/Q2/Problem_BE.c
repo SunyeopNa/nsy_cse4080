@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <pthread.h>
+#include <semaphore.h>
 
 sem_t s;
 /* semaphore s */
 void *foo(void *vargp)
 {
 	int id;
-	P(&s);
+	sem_wait(&s);
 	id = *((int *)vargp);
-	V(&s);
+	sem_post(&s);
 	printf("Thread %d\n", id);
 }
 
