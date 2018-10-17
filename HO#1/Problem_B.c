@@ -3,8 +3,7 @@
 #include <signal.h> 
 #include <unistd.h> 
 // This function will handle a signal.  
-void *HandleSignal(int sig, siginfo_t *si, void *context); 
-
+void HandleSignal(int sig, siginfo_t *si, void *context); 
 int main(int argc, char *argv[])
 {
 	struct sigaction sVal;
@@ -17,7 +16,7 @@ int main(int argc, char *argv[])
 
 	// Indicate which function is the signal handler.    
 	sVal.sa_sigaction = HandleSignal;
-
+    
 	myPID = getpid();
 	myG_PID = getpgid(myPID);
 	printf("\nMy process id = %d.\n", myPID);
